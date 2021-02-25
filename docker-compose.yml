@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  wapp:
+    container_name: "ibrahimekinci-test-webapp"
+    build:
+      context: ./WebApp
+      dockerfile: Dockerfile
+    restart: unless-stopped
+  wapi:
+     container_name: "ibrahimekinci-test-webapi"
+     build:
+       context: ./WebApi
+       dockerfile: Dockerfile
+  proxy:
+    container_name: "ibrahimekinci-test-nginx"
+    build:
+       context: ./Nginx
+       dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+     - "90:80"
+     - "91:81"
+    links:
+      - wapp
+      - wapi
